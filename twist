@@ -498,7 +498,6 @@ function sslibevinstall(){
     [ -z "$MAKECORES" ] && MAKECORES="1"
 	if [ "$1" = "install" ]; then
         [ -z "$libsodiumver" ] && libsodiumver="$(wget -qO- https://api.github.com/repos/jedisct1/libsodium/releases/latest | grep 'tag_name' | cut -d\" -f4)"
-        wget -t 3 -T 30 -nv --no-check-certificate -O libsodium-${libsodiumver}.tar.gz https://github.com/jedisct1/libsodium/releases/download/${libsodiumver}/libsodium-${libsodiumver}.tar.gz
         [ "$?" != "0" ] && sslibevinstallerr "libsodium-${libsodiumver}"
         [ -d libsodium-${libsodiumver} ] && rm -rf libsodium-${libsodiumver}
         tar zxf libsodium-${libsodiumver}.tar.gz
@@ -510,7 +509,6 @@ function sslibevinstall(){
         fi
         ldconfig
         [ -z "$mbedtlsver" ] && mbedtlsver="$(wget -qO- https://tls.mbed.org/download-archive | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | cut -d'.' -f1,2,3 | sort -V | tail -1)"
-        wget -t 3 -T 30 -nv --no-check-certificate -O mbedtls-${mbedtlsver}-gpl.tgz https://tls.mbed.org/download/mbedtls-${mbedtlsver}-gpl.tgz
         [ "$?" != "0" ] && sslibevinstallerr "mbedtls-${mbedtlsver}"
         [ -d mbedtls-${mbedtlsver} ] && rm -rf mbedtls-${mbedtlsver}
         tar xf mbedtls-${mbedtlsver}-gpl.tgz
@@ -522,7 +520,6 @@ function sslibevinstall(){
     fi
     [ -z "$sslibevtag" ] && sslibevtag="$(wget -qO- https://api.github.com/repos/shadowsocks/shadowsocks-libev/releases/latest | grep 'tag_name' | cut -d\" -f4)"
     sslibevver="shadowsocks-libev-$(echo ${sslibevtag} | sed -e 's/^[a-zA-Z]//g')"
-    wget -t 3 -T 30 -nv --no-check-certificate -O ${sslibevver}.tar.gz https://github.com/shadowsocks/shadowsocks-libev/releases/download/${sslibevtag}/${sslibevver}.tar.gz
     [ "$?" != "0" ] && sslibevinstallerr "shadowsocks-libev-$(echo ${sslibevtag} | sed -e 's/^[a-zA-Z]//g')"
     [ -d ${sslibevver} ] && rm -rf $sslibevver
     tar zxf ${sslibevver}.tar.gz
@@ -533,7 +530,6 @@ function sslibevinstall(){
     ldconfig
     [ -z "$ssobfstag" ] && ssobfstag="$(wget -qO- https://api.github.com/repos/shadowsocks/simple-obfs/releases/latest | grep 'tag_name' | cut -d\" -f4)"
     ssobfsver="simple-obfs-$(echo ${ssobfstag} | sed -e 's/^[a-zA-Z]//g')"
-    wget -t 3 -T 30 -nv --no-check-certificate -O ${ssobfsver}.tar.gz https://github.com/shadowsocks/simple-obfs/archive/${ssobfstag}.tar.gz
     [ "$?" != "0" ] && sslibevinstallerr "simple-obfs-$(echo ${ssobfstag} | sed -e 's/^[a-zA-Z]//g')"
     [ -d ${ssobfsver} ] && rm -rf $ssobfsver
     tar zxf ${ssobfsver}.tar.gz
