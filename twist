@@ -308,7 +308,6 @@ function systemdetect(){
             apt-get update || dependenciesinstallerr "Update"
             apt-get -yq install gawk curl net-tools dnsutils || dependenciesinstallerr "Install"
         elif [ "$packagemanagertype" = "y" ]; then
-            yum -y update || dependenciesinstallerr "Update"
             yum -y install gawk curl net-tools bind-utils || dependenciesinstallerr "Install"
         else
             pacman -Syyu --noconfirm || dependenciesinstallerr "Update and Upgrade"
