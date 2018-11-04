@@ -410,8 +410,6 @@ function dependenciesinstall(){
         [ "$?" != "0" ] && dependenciesinstallerr "Install"
         [ "$FWS" = "enable" ] && { apt-get -yq install apache2 || dependenciesinstallerr "Apache"; }
     elif [ "$packagemanagertype" = "y" ]; then
-        yum -y update || dependenciesinstallerr "Update"
-        yum -y upgrade || dependenciesinstallerr "Upgrade"
         [ -e /etc/yum.repos.d/epel.repo ] || { yum -y install epel-release yum-utils || { twistlog "Cannot add EPEL repository"; echo -e "# [\033[31;1mCannot add EPEL repository. Aborting! \033[0m]"; exit 1; }; }
         [ "$?" != "0" ] && dependenciesinstallerr "Install"
         [ "$FWS" = "enable" ] && { yum -y install ${webservername} || dependenciesinstallerr "Apache"; }
