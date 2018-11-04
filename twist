@@ -647,7 +647,7 @@ net.ipv6.conf.all.seg6_enabled = 1
 EOF
         timemachine "backup" "/etc/security/limits.conf" "/etc/twist/limits.conf"
         echo "*                soft    nofile          512000" >> /etc/security/limits.conf
-        echo "*                hard    nofile          512000" >> /etc/security/limits.conf
+        echo "*                hard    nofile          1024000" >> /etc/security/limits.conf
         echo "" >> /etc/security/limits.conf
         if ! grep -qs "pam_limits.so" /etc/pam.d/login; then
             timemachine "backup" "/etc/pam.d/login" "/etc/twist/login"
