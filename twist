@@ -308,6 +308,7 @@ function systemdetect(){
             apt-get update || dependenciesinstallerr "Update"
             apt-get -yq install gawk curl net-tools dnsutils || dependenciesinstallerr "Install"
         elif [ "$packagemanagertype" = "y" ]; then
+            yum -y update || dependenciesinstallerr "Update"
             yum -y install gawk curl net-tools bind-utils || dependenciesinstallerr "Install"
         else
             pacman -Syyu --noconfirm || dependenciesinstallerr "Update and Upgrade"
@@ -410,7 +411,10 @@ function dependenciesinstall(){
         [ "$?" != "0" ] && dependenciesinstallerr "Install"
         [ "$FWS" = "enable" ] && { apt-get -yq install apache2 || dependenciesinstallerr "Apache"; }
     elif [ "$packagemanagertype" = "y" ]; then
+        yum -y update || dependenciesinstallerr "Update"
+        yum -y upgrade || dependenciesinstallerr "Upgrade"
         [ -e /etc/yum.repos.d/epel.repo ] || { yum -y install epel-release yum-utils || { twistlog "Cannot add EPEL repository"; echo -e "# [\033[31;1mCannot add EPEL repository. Aborting! \033[0m]"; exit 1; }; }
+        yum -y install wget gawk grep curl sed git gcc swig gettext-devel autoconf automake make libtool pcre-devel perl-devel cpio xmlto asciidoc vixie-cron crontabs fail2ban net-tools bind-utils rng-tools expat-devel openssl-devel zlib-devel libev-devel c-ares-devel python-devel python-setuptools python-pip
         [ "$?" != "0" ] && dependenciesinstallerr "Install"
         [ "$FWS" = "enable" ] && { yum -y install ${webservername} || dependenciesinstallerr "Apache"; }
     else
@@ -497,7 +501,6 @@ function sslibevinstall(){
     [ -z "$MAKECORES" ] && MAKECORES="1"
 	if [ "$1" = "install" ]; then
         [ -z "$libsodiumver" ] && libsodiumver="$(wget -qO- https://api.github.com/repos/jedisct1/libsodium/releases/latest | grep 'tag_name' | cut -d\" -f4)"
-        wget -t 3 -T 30 -nv -O libsodium-${libsodiumver}.tar.gz https://github.com/jedisct1/libsodium/releases/download/${libsodiumver}/libsodium-${libsodiumver}.tar.gz
         [ "$?" != "0" ] && sslibevinstallerr "libsodium-${libsodiumver}"
         [ -d libsodium-${libsodiumver} ] && rm -rf libsodium-${libsodiumver}
         tar zxf libsodium-${libsodiumver}.tar.gz
@@ -643,7 +646,7 @@ net.ipv6.conf.all.seg6_enabled = 1
 EOF
         timemachine "backup" "/etc/security/limits.conf" "/etc/twist/limits.conf"
         echo "*                soft    nofile          512000" >> /etc/security/limits.conf
-        echo "*                hard    nofile          1024000" >> /etc/security/limits.conf
+        echo "*                hard    nofile          512000" >> /etc/security/limits.conf
         echo "" >> /etc/security/limits.conf
         if ! grep -qs "pam_limits.so" /etc/pam.d/login; then
             timemachine "backup" "/etc/pam.d/login" "/etc/twist/login"
