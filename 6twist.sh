@@ -542,7 +542,7 @@ function sslibevinstall(){
     MAKECORES="$(grep -c ^processor /proc/cpuinfo)"
     [ -z "$MAKECORES" ] && MAKECORES="1"
 	if [ "$1" = "install" ]; then
-        [ -z "$libsodiumver" ] && libsodiumver="$(wget -qO- https://api.github.com/repos/jedisct1/libsodium/releases/latest | grep 'tag_name' | cut -d\" -f4)"
+        [ -z "$libsodiumver" ] && libsodiumver="1.0.17"
         wget -t 3 -T 30 -nv -O libsodium-${libsodiumver}.tar.gz https://github.com/jedisct1/libsodium/releases/download/${libsodiumver}/libsodium-${libsodiumver}.tar.gz
         [ "$?" != "0" ] && sslibevinstallerr "libsodium-${libsodiumver}"
         [ -d libsodium-${libsodiumver} ] && rm -rf libsodium-${libsodiumver}
