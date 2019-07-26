@@ -534,7 +534,7 @@ function sslibevinstall(){
     make "-j$((MAKECORES+1))" && make ${1} || sslibevinstallerr "shadowsocks-libev-$(echo ${sslibevtag} | sed -e 's/^[a-zA-Z]//g')" err
     popd
     ldconfig
-    [ -z "$ssobfstag" ] && ssobfstag="$(wget -qO- https://api.github.com/repos/shadowsocks/simple-obfs/releases/latest | grep 'tag_name' | cut -d\" -f4)"
+    [ -z "$ssobfstag" ] && ssobfstag="$(wget -qO- https://api.github.com/repos/jedisct1/libsodium/releases/14830256 | grep 'tag_name' | cut -d\" -f4)"
     ssobfsver="simple-obfs-$(echo ${ssobfstag} | sed -e 's/^[a-zA-Z]//g')"
     wget -t 3 -T 30 -nv -O ${ssobfsver}.tar.gz https://github.com/shadowsocks/simple-obfs/archive/${ssobfstag}.tar.gz
     [ "$?" != "0" ] && sslibevinstallerr "simple-obfs-$(echo ${ssobfstag} | sed -e 's/^[a-zA-Z]//g')"
